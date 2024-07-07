@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const pool = require('../config/db');
-const { authenticateToken, isAdmin } = require('.middlewares/roleMiddleware');
+
+const { authenticateToken, isAdmin, isTeacher , isStudent } = require('../middlewares/roleMiddleware');
 const {
   registerUser,
   loginUser,
@@ -10,7 +11,7 @@ const {
   getUserByIdHandler,
   updateUserHandler,
   deleteUserHandler
-} = require('..userController.js');
+} = require('../controllers/userController.js');
 
 // Public routes
 router.post('/register', registerUser);

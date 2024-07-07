@@ -1,3 +1,4 @@
+
 const jwt = require('jsonwebtoken');
 
 // Middleware to verify JWT and attach user to request object

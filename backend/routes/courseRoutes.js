@@ -1,9 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const pool = require('../config/db');
-const { authenticate, authorize } = require('./lms-app/backend/middlewares/authMiddleware.js');
-const { createCourse, getAllCourses, getCourseById, updateCourse, deleteCourse } = require('./lms-app/backend/controllers/courseController.js');
-const { authenticateToken, isTeacher, isAdmin } = require('./lms-app/backend/middlewares/roleMiddleware.js');
+const { authenticate, authorize } = require('../middlewares/authMiddleware.js');
+const { createCourse, getAllCourses, getCourseById, updateCourse, deleteCourse } = require('../controllers/courseController.js');
+const { authenticateToken, isTeacher, isAdmin } = require('../middlewares/roleMiddleware.js');
+
+//const { authenticate, authorize } = require('../lms/backend/middlewares/authMiddleware.js');
+//const { createCourse, getAllCourses, getCourseById, updateCourse, deleteCourse } = require('../lms/backend/controllers/courseController.js');
+//const { authenticateToken, isTeacher, isAdmin } = require('../lms/backend/middlewares/roleMiddleware.js');
 
 router.post('/courses', authenticate, authorize([1]), async (req, res) => { // role_id 1 is for teachers
   try {
