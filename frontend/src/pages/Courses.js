@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getCourses } from '../services/api';
+import { getCourses } from '../api/courseApi';
 import CourseList from '../components/Courses/CourseList';
 
 const Courses = () => {
@@ -22,13 +22,12 @@ const Courses = () => {
     fetchCourses();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
   return (
     <div>
       <h1>Courses</h1>
-      <CourseList courses={courses} />
+      {loading && <div>Loading...</div>}
+      {error && <div>Error: {error}</div>}
+      {!loading && !error && <CourseList courses={courses} />}
     </div>
   );
 };

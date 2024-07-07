@@ -1,34 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { getCourses, deleteCourse } from '../../api/courseApi';
-import useAuth from '../../hooks/useAuth';
+import React from 'react';
+import { deleteCourse } from '../../api/courseApi';
 
-const CourseList = () => {
-  const [courses, setCourses] = useState([]);
-  const { user } = useAuth();
-
-  useEffect(() => {
-    const fetchCourses = async () => {
-      const response = await getCourses();
-      setCourses(response.data);
-    };
-
-    fetchCourses();
-  }, []);
+const CourseList = ({ courses, loading, error }) => {
+    if (loading) return <div>Loading...</div>;
+    
+  if (error) return <div>Error: {error}</div>;
 
   const handleDelete = async (courseId) => {
-    await deleteCourse(courseId);
-    setCourses(courses.filter(course => course.course_id !== courseId));
+    try {
+      await deleteCourse(courseId);
+      // setCourses is no longer available here,
+      // the parent component (Courses.js) handles updating the courses
+    } catch (err) {
+      console.error("Error deleting course:", err);
+    }
   };
 
   return (
     <div>
       <h2>Courses</h2>
       <ul>
-        {courses.map((course) => (
+        {courses && courses.map((course) => (
           <li key={course.course_id}>
-            {course.course_name}
-            {user.role === 'admin' && (
-              <button onClick={() => handleDelete(course.course_id)}>Delete</button>
+            {course.course_name}            
+              <button onClick={() => handleDelete(course.course_id)}>Delete</button>            
+          
             )}
           </li>
         ))}
@@ -38,3 +34,4 @@ const CourseList = () => {
 };
 
 export default CourseList;
+

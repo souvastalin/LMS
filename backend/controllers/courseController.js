@@ -1,4 +1,5 @@
 const pool = require('../config/db.js'); // Ensure this path is correct
+const { getCoursesByTeacherId } = require('../models/courseModel.js');
 
 // Create a new course
 const createCourse = async (req, res) => {
@@ -84,10 +85,24 @@ const deleteCourse = async (req, res) => {
   }
 };
 
+// Get courses by teacher ID
+const getCoursesByTeacher = async (req, res) => {
+  const { teacherId } = req.params;
+
+  try {
+    const courses = await getCoursesByTeacherId(teacherId);
+    res.status(200).json(courses);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
 module.exports = {
   createCourse,
   getAllCourses,
   getCourseById,
-  updateCourse,
-  deleteCourse
+  updateCourse, 
+  deleteCourse,
+  getCoursesByTeacher
 };

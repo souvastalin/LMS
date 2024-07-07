@@ -13,11 +13,6 @@ const {
   deleteUserHandler
 } = require('../controllers/userController.js');
 
-// Public routes
-router.post('/register', registerUser);
-router.post('/login', loginUser);
-
-// Apply authentication middleware to all protected routes
 router.use(authenticateToken);
 
 // Protected routes

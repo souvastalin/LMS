@@ -6,6 +6,10 @@ export const login = (email, password) => {
   return axios.post(`${API_URL}/login`, { email, password });
 };
 
+export const getCurrentUser = () => {
+  return axios.get(`${API_URL}/user`);
+};
+
 export const register = (userData) => {
   return axios.post(`${API_URL}/register`, userData);
 };

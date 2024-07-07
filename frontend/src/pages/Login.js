@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { login } from '../services/api';
+import { login } from '../api/authApi';
 import { useAuth } from '../hooks/useAuth';
 
 const Login = () => {

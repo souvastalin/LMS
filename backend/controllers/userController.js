@@ -2,47 +2,6 @@ const { createUser, getUserByUsername, getUserById, getAllUsers, updateUser, del
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-// User registration
-const registerUser = async (req, res) => {
-  const { username, password, role_id } = req.body;
-
-  try {
-    const user = await getUserByUsername(username);
-    if (user) {
-      return res.status(400).json({ error: 'User already exists' });
-    }
-
-    const newUser = await createUser(username, password, role_id);
-    res.status(201).json(newUser);
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: 'Server error' });
-  }
-};
-
-// User login
-const loginUser = async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    const user = await getUserByUsername(username);
-    if (!user) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-    }
-
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid credentials' });
-    }
-
-    const token = jwt.sign({ userId: user.user_id, roleId: user.role_id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
-  } catch (error) {
-    console.error(error.message);
-    res.status(500).json({ error: 'Server error' });
-  }
-};
-
 // Get all users
 const getAllUsersHandler = async (req, res) => {
   try {
@@ -107,9 +66,7 @@ const deleteUserHandler = async (req, res) => {
 };
 
 module.exports = { 
-  
-  registerUser,
-  loginUser,
+
   getAllUsersHandler,
   getUserByIdHandler,
   updateUserHandler,

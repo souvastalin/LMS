@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { createCourse, updateCourse } from '../../api/courseApi';
+import useAuth from '../../hooks/useAuth';
 
 const CourseForm = ({ course, onSuccess }) => {
   const [courseName, setCourseName] = useState(course ? course.course_name : '');
@@ -7,6 +8,7 @@ const CourseForm = ({ course, onSuccess }) => {
   const [courseStatus, setCourseStatus] = useState(course ? course.course_status : '');
 
   const handleSubmit = async (e) => {
+    const { user } = useAuth()
     e.preventDefault();
 
     const courseData = {
@@ -18,6 +20,7 @@ const CourseForm = ({ course, onSuccess }) => {
     if (course) {
       await updateCourse(course.course_id, courseData);
     } else {
+      courseData.teacher_id = user.user_id
       await createCourse(courseData);
     }
 

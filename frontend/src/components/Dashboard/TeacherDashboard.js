@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getCourses } from '../../api/courseApi';
+import { getCoursesByTeacherId } from '../../api/courseApi';
 import useAuth from '../../hooks/useAuth';
 import CourseList from '../Courses/CourseList';
 import CourseForm from '../Courses/CourseForm';
@@ -10,18 +10,18 @@ const TeacherDashboard = () => {
 
   useEffect(() => {
     const fetchCourses = async () => {
-      const response = await getCourses();
-      setCourses(response.data.filter(course => course.user_id === user.user_id));
+      const response = await getCoursesByTeacherId(user.user_id);
+      setCourses(response.data);
     };
 
     fetchCourses();
   }, [user]);
 
   const handleCourseSuccess = () => {
-    // Re-fetch courses
+    // Re-fetch courses after a course is created or updated
     const fetchCourses = async () => {
-      const response = await getCourses();
-      setCourses(response.data.filter(course => course.user_id === user.user_id));
+      const response = await getCoursesByTeacherId(user.user_id);
+      setCourses(response.data);
     };
 
     fetchCourses();

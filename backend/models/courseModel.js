@@ -33,6 +33,16 @@ const getCourseById = async (course_id) => {
   }
 };
 
+// Function to get courses by teacher ID
+const getCoursesByTeacherId = async (teacherId) => {
+  try {
+    const courses = await pool.query('SELECT * FROM courses WHERE teacher_id = $1', [teacherId]);
+    return courses.rows;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // Function to update a course
 const updateCourse = async (course_id, course_name, description) => {
   try {
@@ -61,5 +71,6 @@ module.exports = {
   getAllCourses,
   getCourseById,
   updateCourse,
-  deleteCourse
+  deleteCourse,
+  getCoursesByTeacherId
 };
